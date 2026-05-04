@@ -178,7 +178,7 @@ export function exportPdf(trials: Trial[], company: string) {
         doc.setFontSize(8);
         doc.setTextColor(140);
         doc.text(
-          `Trialscope · ${company} Pipeline · Page ${pageNum}/${pageCount}`,
+          `Pipeline Planner · ${company} Pipeline · Page ${pageNum}/${pageCount}`,
           pageWidth / 2,
           doc.internal.pageSize.getHeight() - 20,
           { align: "center" },

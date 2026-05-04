@@ -242,7 +242,7 @@ export default function Home() {
               ClinicalTrials.gov
             </a>
           </div>
-          <div>Trialscope — Phase 2/3 pipeline intelligence</div>
+          <div>Pipeline Planner — Phase 2/3 pipeline intelligence</div>
         </div>
       </footer>
     </div>

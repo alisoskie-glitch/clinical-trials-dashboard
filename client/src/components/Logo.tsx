@@ -1,5 +1,5 @@
 /**
- * Trialscope logo — geometric mark suggesting a pipeline funnel and a measurement window.
+ * Pipeline Planner logo — geometric mark suggesting a pipeline funnel and a measurement window.
  * Inspired by Paul Rand: one strong shape, works from 24px to 200px.
  */
 export function Logo({ size = 28, className = "" }: { size?: number; className?: string }) {
@@ -11,7 +11,7 @@ export function Logo({ size = 28, className = "" }: { size?: number; className?:
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      aria-label="Trialscope"
+      aria-label="Pipeline Planner"
     >
       {/* Outer pipeline ring */}
       <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="2" />
@@ -27,7 +27,7 @@ export function LogoWordmark({ className = "" }: { className?: string }) {
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <Logo size={26} className="text-primary" />
-      <span className="text-base font-semibold tracking-tight">Trialscope</span>
+      <span className="text-base font-semibold tracking-tight">Pipeline Planner</span>
     </div>
   );
 }

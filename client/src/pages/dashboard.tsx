@@ -18,6 +18,7 @@ import {
   CheckCircle2,
   Clock,
   Loader2,
+  LineChart,
 } from "lucide-react";
 import type { Trial, SearchResponse, TrialFilters } from "@shared/schema";
 import { SPECIALTIES, SPECIALTY_COLORS, type Specialty } from "@shared/specialty-taxonomy";
@@ -48,6 +49,7 @@ import { useToast } from "@/hooks/use-toast";
 import { SpecialtyChart } from "@/components/SpecialtyChart";
 import { GanttChart } from "@/components/GanttChart";
 import { TrialDetailDrawer } from "@/components/TrialDetailDrawer";
+import { TrialTimelineModal } from "@/components/TrialTimelineModal";
 import { exportCsv, exportExcel, exportPdf } from "@/lib/exports";
 import { formatDate, formatPhase, formatStatus, daysSince } from "@/lib/format";
 
@@ -94,6 +96,7 @@ export default function Dashboard() {
   );
   const [openSpecialties, setOpenSpecialties] = useState<Set<string>>(new Set(SPECIALTIES));
   const [drawerTrial, setDrawerTrial] = useState<Trial | null>(null);
+  const [timelineTrial, setTimelineTrial] = useState<Trial | null>(null);
 
   // Build filters object for API
   const filters: TrialFilters = {
@@ -509,7 +512,13 @@ export default function Dashboard() {
                         </Badge>
                       </div>
                     </button>
-                    {isOpen && <TrialTable trials={trials} onSelect={setDrawerTrial} />}
+                    {isOpen && (
+                      <TrialTable
+                        trials={trials}
+                        onSelect={setDrawerTrial}
+                        onTimeline={setTimelineTrial}
+                      />
+                    )}
                   </Card>
                 );
               })}
@@ -552,16 +561,33 @@ export default function Dashboard() {
         open={!!drawerTrial}
         onClose={() => setDrawerTrial(null)}
       />
+
+      <TrialTimelineModal
+        trial={timelineTrial}
+        open={!!timelineTrial}
+        onClose={() => setTimelineTrial(null)}
+      />
     </div>
   );
 }
 
-function TrialTable({ trials, onSelect }: { trials: Trial[]; onSelect: (t: Trial) => void }) {
+function TrialTable({
+  trials,
+  onSelect,
+  onTimeline,
+}: {
+  trials: Trial[];
+  onSelect: (t: Trial) => void;
+  onTimeline: (t: Trial) => void;
+}) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead className="bg-secondary/50 text-muted-foreground">
           <tr className="text-left">
+            <th className="px-3 py-2.5 font-medium text-xs uppercase tracking-wider w-[120px]">
+              
+            </th>
             <th className="px-4 py-2.5 font-medium text-xs uppercase tracking-wider min-w-[280px]">
               Trial
             </th>
@@ -594,6 +620,22 @@ function TrialTable({ trials, onSelect }: { trials: Trial[]; onSelect: (t: Trial
               onClick={() => onSelect(t)}
               data-testid={`row-trial-${t.nctId}`}
             >
+              <td className="px-3 py-3">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-7 px-2.5 text-xs gap-1.5"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onTimeline(t);
+                  }}
+                  data-testid={`button-timeline-${t.nctId}`}
+                  title="Open qualitative MR engagement timeline"
+                >
+                  <LineChart className="h-3.5 w-3.5" />
+                  Timeline
+                </Button>
+              </td>
               <td className="px-4 py-3">
                 <div className="font-medium leading-snug max-w-2xl">
                   {t.briefTitle}

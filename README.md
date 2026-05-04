@@ -1,10 +1,10 @@
-# Trialscope
+# Pipeline Planner
 
 The 24-month pipeline view for any pharma company.
 
-Trialscope searches [ClinicalTrials.gov](https://clinicaltrials.gov) and produces a clean, sortable dashboard of every Phase 2 and Phase 3 trial for a sponsor (and its subsidiaries and frequent collaborators) due to complete in the next two years.
+Pipeline Planner searches [ClinicalTrials.gov](https://clinicaltrials.gov) and produces a clean, sortable dashboard of every Phase 2 and Phase 3 trial for a sponsor (and its subsidiaries and frequent collaborators) due to complete in the next two years.
 
-**Live demo:** [trialscope.pplx.app](https://trialscope.pplx.app)
+**Live demo:** [pipeline-planner.pplx.app](https://pipeline-planner.pplx.app)
 
 ## Features
 
