@@ -7,13 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { LogoWordmark } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { apiRequest } from "@/lib/queryClient";
-
-interface CompanySuggestion {
-  name: string;
-  country?: string;
-  subsidiaryCount: number;
-}
+import {
+  getSuggestions,
+  getCuratedCompanies,
+  type CompanySuggestion,
+} from "@/lib/clinical-trials-client";
 
 export default function Home() {
   const [, navigate] = useLocation();
@@ -24,16 +22,14 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { data: suggestData } = useQuery<{ matches: CompanySuggestion[] }>({
-    queryKey: ["/api/suggest", query],
-    queryFn: async () => {
-      const res = await apiRequest("GET", `/api/suggest?q=${encodeURIComponent(query)}`);
-      return res.json();
-    },
+    queryKey: ["suggest", query],
+    queryFn: async () => ({ matches: getSuggestions(query, 8) }),
     enabled: query.trim().length >= 1,
   });
 
   const { data: companiesData } = useQuery<{ companies: CompanySuggestion[] }>({
-    queryKey: ["/api/companies"],
+    queryKey: ["companies"],
+    queryFn: async () => ({ companies: getCuratedCompanies() }),
   });
 
   const suggestions = suggestData?.matches ?? [];

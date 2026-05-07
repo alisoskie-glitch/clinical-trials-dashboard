@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import type { Trial, SearchResponse, TrialFilters } from "@shared/schema";
 import { SPECIALTIES, SPECIALTY_COLORS, type Specialty } from "@shared/specialty-taxonomy";
-import { apiRequest } from "@/lib/queryClient";
+import { searchTrials } from "@/lib/clinical-trials-client";
 import { LogoWordmark } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
@@ -107,13 +107,10 @@ export default function Dashboard() {
     includeObservational,
   };
 
-  // Fetch trials
+  // Fetch trials directly from ClinicalTrials.gov v2 (browser-side)
   const { data, isLoading, isFetching, error, refetch } = useQuery<SearchResponse>({
-    queryKey: ["/api/search", JSON.stringify(filters)],
-    queryFn: async () => {
-      const res = await apiRequest("POST", "/api/search", filters);
-      return res.json();
-    },
+    queryKey: ["search", JSON.stringify(filters)],
+    queryFn: () => searchTrials(filters),
     enabled: !!companyParam,
     staleTime: 5 * 60 * 1000,
   });
